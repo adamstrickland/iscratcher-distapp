@@ -6,7 +6,6 @@
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
-require 'git'
 
 # require 'tasks/rails'
 # 
@@ -61,6 +60,9 @@ task :dist => [:build, 'dist:dist']
 
 namespace :dist do
   task :init do
+    require 'git'
+    require 'logger'
+    
     # rm release_file
     # # new_release = "#{release_file_name}-"Dir[File.join(File.dirname(__FILE__), "#{release_file_name}*")].count
     # mv release_file_name, ""
@@ -71,8 +73,8 @@ namespace :dist do
   task :dist => :init do
     # system "git push origin master && git push heroku master"
     # system "cd ../android/iscratcher-app && ant release && cp bin/iscratcher-release.apk ../../distapp && cd ../../distapp && git add iscratcher-release.apk && git commit -m 'rake dist' && git push origin master && git push heroku master"
-    # g = Git.open File.dirname(__FILE__), :log => Logger.new(STDOUT)
-    g = Git.open File.dirname(__FILE__)
+    g = Git.open File.dirname(__FILE__), :log => Logger.new(STDOUT)
+    # g = Git.open File.dirname(__FILE__)
     g.add release_file
     g.commit_all "rake dist"
     g.push(g.remote('origin'))
