@@ -53,7 +53,7 @@ end
 task :default => :dist
 
 task :build do
-  system "ant -f #{ant_build_file} production"
+  system "ant -f #{ant_build_file} deploy"
 end
 
 task :dist => [:build, 'dist:dist']
